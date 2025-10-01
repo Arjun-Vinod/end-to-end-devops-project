@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-deployment
+  labels:
+    type: result-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      type: result-app
+  template:
+    metadata:
+      name: node-pod
+      labels:
+        type: result-app
+    spec:
+      containers:
+        - name: result-app
+          image: arjunvinod77/result-app
+...

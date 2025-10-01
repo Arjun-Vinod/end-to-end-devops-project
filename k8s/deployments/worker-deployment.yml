@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deployment
+  labels:
+    type: worker-app
+spec:
+  selector:
+    matchLabels:
+      type: worker-app
+  template:
+    metadata:
+      name: worker-pod
+      labels:
+        type: worker-app
+    spec:
+      containers:
+        - name: worker-app
+          image: arjunvinod77/worker-app
+...
