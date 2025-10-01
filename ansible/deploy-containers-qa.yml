@@ -1,0 +1,33 @@
+---
+- name: Setup Microservice app as containers
+  hosts: all
+  tasks:
+    - name: Deploy The python voting app
+      docker_container:
+        image: arjunvinod77/voting-app
+        name: voting-app
+        ports:
+          - 5050:80
+    - name: Deploy the inmemory db
+      docker_container:
+        image: redis
+        name: redis
+    - name: Deploy the .net worker app
+      docker_container:
+        image: arjunvinod77/worker-app
+        name: worker-app
+    - name: Deploy the postgres db
+      docker_container:
+        image: postgres
+        name: database
+        env:
+          POSTGRES_PASSWORD: "{{ DB_PASS }}"
+          POSTGRES_USER: "{{ DB_USER }}"
+          POSTGRES_DB: appdb
+    - name: Deploy the nodejs result app
+      docker_container:
+        image: arjunvinod77/result-app
+        name: result-app
+        ports:
+          - 6060:80
+...
