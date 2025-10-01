@@ -13,5 +13,12 @@ pipeline{
                 sh 'cd /var/lib/jenkins/workspace/project-end-to-end/result; docker build -t arjunvinod77/result-app .'
             }
         }
+            stage('Push Docker images to Docker Registry'){
+            steps{
+                sh 'docker push arjunvinod77/voting-app'
+                sh 'docker push arjunvinod77/worker-app'
+                sh 'docker push arjunvinod77/result-app'
+            }
+        }
     }
 }
