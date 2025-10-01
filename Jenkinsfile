@@ -6,14 +6,14 @@ pipeline{
                 git branch: 'main', url: 'https://github.com/Arjun-Vinod/end-to-end-devops-project.git'
             }
         }
-           stage('Create Docker Images'){
+        stage('Create Docker Images'){
             steps{
                 sh 'cd /var/lib/jenkins/workspace/project-end-to-end/vote; docker build -t arjunvinod77/voting-app .'
                 sh 'cd /var/lib/jenkins/workspace/project-end-to-end/worker; docker build -t arjunvinod77/worker-app .'
                 sh 'cd /var/lib/jenkins/workspace/project-end-to-end/result; docker build -t arjunvinod77/result-app .'
             }
         }
-            stage('Push Docker images to Docker Registry'){
+        stage('Push Docker images to Docker Registry'){
             steps{
                 sh 'docker push arjunvinod77/voting-app'
                 sh 'docker push arjunvinod77/worker-app'
@@ -35,6 +35,16 @@ pipeline{
                 git branch: 'main', url: 'https://github.com/Arjun-Vinod/WebAppTesting.git'
                 sh 'java -jar /var/lib/jenkins/workspace/project-end-to-end/testing.jar '  
             }
+        }
+        stage('Deploy into Kubernetes cluster'){
+            steps{
+                sh '''
+                    ssh ec2-user@172.31.27.204 "
+                        kubectl apply -f k8s/deployments &&
+                        kubectl apply -f k8s/services
+                    "
+                '''
+            }   
         }
     }
 }
