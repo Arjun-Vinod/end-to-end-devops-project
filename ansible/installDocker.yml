@@ -1,0 +1,10 @@
+---
+- name: Docker Installation on QA servers
+  hosts: all
+  tasks:
+    - name: Download the shell script and install
+      shell: "{{item}}"
+      with_items:
+        - curl -fsSL https://get.docker.com -o install-docker.sh
+        - sudo sh install-docker.sh
+...
