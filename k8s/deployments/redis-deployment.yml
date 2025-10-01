@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  labels:
+    type: in-memory-db
+spec:
+  selector:
+    matchLabels:
+      type: in-memory-db
+  template:
+    metadata:
+      name: redis-pod
+      labels:
+        type: in-memory-db
+    spec:
+      containers:
+        - name: redis
+          image: redis
+...
+
