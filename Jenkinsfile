@@ -20,5 +20,15 @@ pipeline{
                 sh 'docker push arjunvinod77/result-app'
             }
         }
+        stage('Deploy to QA servers as containers'){
+            steps{
+                withCredentials([
+                    string(credentialsId: 'DB_USER', variable: 'DB_USER'),
+                    string(credentialsId: 'DB_PASS', variable: 'DB_PASS')
+                ]){
+                    sh 'ssh ubuntu@172.31.23.186 ansible-playbook deploy-containers-qa.yml -e "DB_USER=$DB_USER" -e "DB_PASS=$DB_PASS" -b'
+                }
+            }
+        }
     }
 }
