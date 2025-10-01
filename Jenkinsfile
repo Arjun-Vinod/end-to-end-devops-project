@@ -30,5 +30,11 @@ pipeline{
                 }
             }
         }
+        stage('Download and run selenium scripts'){
+            steps{
+                git branch: 'main', url: 'https://github.com/Arjun-Vinod/WebAppTesting.git'
+                sh 'java -jar /var/lib/jenkins/workspace/project-end-to-end/testing.jar '  
+            }
+        }
     }
 }
